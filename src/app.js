@@ -25,7 +25,7 @@ const state = {
     },
     {
       id: 2,
-      title: 'Avocado Toast',
+      title: 'Avocado Toast!',
       instructions: 'Toast bread.  Slice avocado and spread on bread.  Add salt, oil, and pepper to taste.',
       ingredients: ['2 slices of bread', '1 avocado', '1 tablespoon olive oil', '1 pinch of salt', 'pepper'],
       img: '/images/avocado-toast.jpg'
