@@ -6,52 +6,20 @@ import RecipeList from './RecipeList';
 
 const RecipeApp = ({
   shouldShowForm,
-  recipes,
-  saveRecipe,
-  deleteRecipe,
-  showForm,
-  hideForm
+  recipes
 }) => (
   <div className="App">
-    <Navbar onNewRecipe={showForm} />
+    <Navbar />
     { shouldShowForm ?
-        <RecipeInput 
-          onSave={saveRecipe}
-          onClose={hideForm}  
-        /> :
+      <RecipeInput /> :
         null }
-    <RecipeList onDelete={deleteRecipe} recipes={recipes} />
+    <RecipeList recipes={recipes} />
   </div>
 );
 
 const mapStateToProps = state => ({
   recipes: state.recipes,
-  shouldShowForm: state.shouldShowForm
+  shouldShowForm: state.form.shouldShowForm
 });
 
-const mapDispatchToProps = dispatch => ({
-  saveRecipe(recipe) {
-    dispatch({
-      type: 'SAVE_RECIPE',
-      recipe
-    });
-  },
-  deleteRecipe(recipeId) {
-    dispatch({
-      type: 'DELETE_RECIPE',
-      recipeId
-    });
-  },
-  showForm() {
-    dispatch({
-      type: 'SHOW_FORM'
-    });
-  },
-  hideForm() {
-    dispatch({
-      type: 'HIDE_FORM'
-    });
-  }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeApp);
+export default connect(mapStateToProps)(RecipeApp);

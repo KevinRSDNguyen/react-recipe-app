@@ -1,9 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { deleteRecipe } from '../actions/recipes';
 
 class Recipe extends Component {
-  
+  onDelete = () => {
+    this.props.deleteRecipe(this.props.id);
+  };
   render() {
-    const {title, img, instructions, id, onDelete} = this.props;
+    const {title, img, instructions} = this.props;
     const ingredients = this.props.ingredients.map((ing, index) => (
       <li key={index}>{ing}</li> 
     ));
@@ -20,11 +24,15 @@ class Recipe extends Component {
           </ul>
           <h4>Instructions:</h4>
           <p>{instructions}</p>
-          <button type="button" onClick={() => onDelete(id)}>DELETE</button>
+          <button type="button" onClick={this.onDelete}>DELETE</button>
         </div>
       </div>
     );
   }
 }
 
-export default Recipe;
+const mapDispatchToProps = (dispatch) => ({
+  deleteRecipe: (id) => dispatch(deleteRecipe(id))
+});
+
+export default connect(null, mapDispatchToProps)(Recipe);

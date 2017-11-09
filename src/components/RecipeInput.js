@@ -1,16 +1,14 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { saveRecipe } from '../actions/recipes';
+import { hideForm } from '../actions/form';
 
 class RecipeInput extends Component {
-  static defaultProps = {
-    onClose() {},
-    onSave() {}
-  }
-  
   constructor(props) {
     super(props);
     this.state = {
       title: '',
-      instructions: "",
+      instructions: '',
       ingredients: [''],
       img: ''
     };
@@ -20,39 +18,36 @@ class RecipeInput extends Component {
     this.handleChangeIng = this.handleChangeIng.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
   handleChange(e) {
-    this.setState({[e.target.name]: e.target.value});
+    this.setState({ [e.target.name]: e.target.value });
   }
   
   handleNewIngredient(e) {
-    const {ingredients} = this.state;
-    this.setState({ingredients: [...ingredients, '']});
+    const { ingredients } = this.state;
+    this.setState({ ingredients: [...ingredients, ''] });
   }
-  
   handleChangeIng(e) {
     const index = Number(e.target.name.split('-')[1]);
     const ingredients = this.state.ingredients.map((ing, i) => (
       i === index ? e.target.value : ing
     ));
-    this.setState({ingredients});
+    this.setState({ ingredients });
   }
-  
   handleSubmit(e) {
     e.preventDefault();
-    this.props.onSave({...this.state});
+    this.props.saveRecipe({ ...this.state });
+    this.props.hideForm();
     this.setState({
       title: '',
       instructions: '',
       ingredients: [''],
       img: ''
-    })
+    });
   }
-  
   render() {
-    const {title, instructions, img, ingredients} = this.state;
-    const {onClose} = this.props;
-    let inputs = ingredients.map((ing, i) => (
+    const { title, instructions, img, ingredients } = this.state;
+    const { onClose } = this.props;
+    const inputs = ingredients.map((ing, i) => (
       <div
         className="recipe-form-line"
         key={`ingredient-${i}`}
@@ -76,7 +71,7 @@ class RecipeInput extends Component {
           <button
             type="button"
             className="close-button"
-            onClick={onClose}
+            onClick={this.props.hideForm}
           >
             X
           </button>
@@ -131,7 +126,7 @@ class RecipeInput extends Component {
           <button
             type="submit"
             className="buttons"
-            style={{alignSelf: 'flex-end', marginRight: 0}}
+            style={{ alignSelf: 'flex-end', marginRight: 0 }}
           >
             SAVE
           </button>
@@ -141,4 +136,9 @@ class RecipeInput extends Component {
   }
 }
 
-export default RecipeInput;
+const mapDispatchToProps = (dispatch, props) => ({
+  saveRecipe: recipe => dispatch(saveRecipe(recipe)),
+  hideForm: () => dispatch(hideForm())
+});
+
+export default connect(null, mapDispatchToProps)(RecipeInput);

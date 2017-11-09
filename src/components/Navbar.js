@@ -1,16 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { showForm } from '../actions/form';
 
 class Navbar extends Component {
-  static defaultProps = {
-    onNewRecipe() {}
-  }
   
   render() {
     return (
       <header>
         <h2><a>Recipe App</a></h2>
         <nav>
-          <li><a onClick={this.props.onNewRecipe}>New Recipe</a></li>
+          <li><a onClick={this.props.showForm}>New Recipe</a></li>
           <li><a>Home</a></li>
           <li><a>About</a></li>
           <li><a>Contact Us</a></li>
@@ -20,4 +19,8 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+const mapDispatchToProps = (dispatch, props) => ({
+  showForm: () => dispatch(showForm())
+});
+
+export default connect(null, mapDispatchToProps)(Navbar);
