@@ -10,9 +10,7 @@ const RecipeApp = ({
 }) => (
   <div className="App">
     <Navbar />
-    { shouldShowForm ?
-      <RecipeInput /> :
-        null }
+    { shouldShowForm && <RecipeInput /> }
     <RecipeList recipes={recipes} />
   </div>
 );
