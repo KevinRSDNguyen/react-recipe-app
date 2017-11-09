@@ -12,28 +12,31 @@ class RecipeInput extends Component {
       ingredients: [''],
       img: ''
     };
-    
-    this.handleChange = this.handleChange.bind(this);
-    this.handleNewIngredient = this.handleNewIngredient.bind(this);
-    this.handleChangeIng = this.handleChangeIng.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-  
-  handleNewIngredient(e) {
+  handleTitleChange = (e) => {
+    const title = e.target.value;
+    this.setState(() => ({title}));
+  };
+  handleInstructionsChange = (e) => {
+    const instructions = e.target.value;
+    this.setState(() => ({instructions}));
+  };
+  handleImgChange = (e) => {
+    const img = e.target.value;
+    this.setState(() => ({img}));
+  };
+  handleNewIngredient = (e) => {
     const { ingredients } = this.state;
     this.setState({ ingredients: [...ingredients, ''] });
-  }
-  handleChangeIng(e) {
+  };
+  handleChangeIng = (e) => {
     const index = Number(e.target.name.split('-')[1]);
     const ingredients = this.state.ingredients.map((ing, i) => (
       i === index ? e.target.value : ing
     ));
     this.setState({ ingredients });
-  }
-  handleSubmit(e) {
+  };
+  handleSubmit = (e) => {
     e.preventDefault();
     this.props.saveRecipe({ ...this.state });
     this.props.hideForm();
@@ -43,7 +46,7 @@ class RecipeInput extends Component {
       ingredients: [''],
       img: ''
     });
-  }
+  };
   render() {
     const { title, instructions, img, ingredients } = this.state;
     const { onClose } = this.props;
@@ -85,7 +88,7 @@ class RecipeInput extends Component {
               value={title}
               size={42}
               autoComplete="off"
-              onChange={this.handleChange}/>
+              onChange={this.handleTitleChange} />
           </div>
           <label
             htmlFor='recipe-instructions-input'
@@ -102,7 +105,7 @@ class RecipeInput extends Component {
             cols='50'
             autoComplete='off'
             value={instructions}
-            onChange={this.handleChange}/>
+            onChange={this.handleInstructionsChange}/>
           {inputs}
           <button
             type="button"
@@ -121,7 +124,7 @@ class RecipeInput extends Component {
               value={img}
               size={36}
               autoComplete='off'
-              onChange={this.handleChange} />
+              onChange={this.handleImgChange} />
           </div>
           <button
             type="submit"
