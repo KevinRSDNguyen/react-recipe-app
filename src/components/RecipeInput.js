@@ -10,7 +10,8 @@ class RecipeInput extends Component {
       title: '',
       instructions: '',
       ingredients: [''],
-      img: ''
+      img: undefined,
+      error: ''
     };
   }
   handleTitleChange = (e) => {
@@ -38,14 +39,20 @@ class RecipeInput extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.saveRecipe({ ...this.state });
-    this.props.hideForm();
-    this.setState({
-      title: '',
-      instructions: '',
-      ingredients: [''],
-      img: ''
-    });
+    const ingredientsFilledOut = this.state.ingredients.every((i) => i.length > 0);
+    if(!this.state.title || !this.state.instructions || !ingredientsFilledOut){
+      this.setState(() => ({error: 'You must at least provide title, instructions, and ingredients.'}));
+    } else{
+      this.props.saveRecipe({ ...this.state });
+      this.props.hideForm();
+      this.setState({
+        title: '',
+        instructions: '',
+        ingredients: [''],
+        img: '',
+        error: ''
+      });
+    }
   };
   render() {
     const { title, instructions, img, ingredients } = this.state;
@@ -71,6 +78,7 @@ class RecipeInput extends Component {
     return (
       <div className="recipe-form-container">
         <form className='recipe-form' onSubmit={this.handleSubmit}>
+          {this.state.error && <p>{this.state.error}</p>}
           <button
             type="button"
             className="close-button"
